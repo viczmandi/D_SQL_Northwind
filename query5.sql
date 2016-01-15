@@ -11,4 +11,4 @@ FROM
     Products ON Products.ProductID = OrderDetails.ProductID
         INNER JOIN
     Categories ON Categories.CategoryID = OrderDetails.ProductID
-GROUP BY Products.ProductName , YEAR(Orders.ShippedDate);
+GROUP BY Products.ProductName , Orders.ShippedDate;

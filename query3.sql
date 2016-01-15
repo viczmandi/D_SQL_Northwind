@@ -19,13 +19,13 @@ SELECT
     Orders.OrderDate,
     Orders.RequiredDate,
     Orders.ShippedDate,
-    Orders.ShipName,
+    Shippers.CompanyName,
     OrderDetails.ProductID,
     Products.ProductName,
     OrderDetails.UnitPrice,
     OrderDetails.Quantity,
     OrderDetails.Discount,
-    OrderDetails.UnitPrice * OrderDetails.Quantity - OrderDetails.UnitPrice * OrderDetails.Quantity * OrderDetails.Discount AS 'Total',
+    (OrderDetails.UnitPrice * OrderDetails.Quantity) * (1 - OrderDetails.Discount) AS 'Total',
     Orders.Freight
 FROM
     Orders
@@ -37,4 +37,6 @@ FROM
     Products ON OrderDetails.ProductID = Products.ProductID
         INNER JOIN
     Employees ON Orders.EmployeeID = Employees.EmployeeID
-ORDER BY Customers.CustomerID;
+        INNER JOIN
+    Shippers ON Orders.ShipVia = Shippers.ShipperID
+ORDER BY Customers.CustomerID, Orders.OrderDate, Products.ProductID;
